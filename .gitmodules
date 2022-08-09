@@ -13,3 +13,6 @@
 [submodule "st7789_mpy"]
 	path = st7789_mpy
 	url = https://github.com/russhughes/st7789_mpy.git
+[submodule "fri3d-lasertag"]
+	path = fri3d-lasertag
+	url = https://github.com/cheops/fri3d-lasertag.git
