@@ -1,5 +1,4 @@
 list = [
-"hardware_setup.py",
 "drivers/boolpalette.py",
 "drivers/st7789/st7789_4bit.py",
 "gui/widgets/meter.py",
@@ -34,7 +33,6 @@ list = [
 "gui/primitives/__init__.py",
 "gui/primitives/encoder.py",
 "gui/primitives/pushbutton.py",
-"gui/primitives/touch.py",
 "gui/core/colors.py",
 "gui/core/writer.py",
 "gui/core/ugui.py"]
