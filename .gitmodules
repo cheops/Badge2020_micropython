@@ -16,3 +16,4 @@
 [submodule "fri3d-lasertag"]
 	path = fri3d-lasertag
 	url = https://github.com/cheops/fri3d-lasertag.git
+        branch = main
