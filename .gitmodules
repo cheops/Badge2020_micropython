@@ -1,9 +1,6 @@
 [submodule "micropython"]
 	path = micropython
 	url = https://github.com/micropython/micropython.git
-[submodule "micropython-micro-gui"]
-	path = micro-gui
-	url = https://github.com/peterhinch/micropython-micro-gui.git
 [submodule "esp-idf"]
 	path = esp-idf
 	url = https://github.com/espressif/esp-idf.git
