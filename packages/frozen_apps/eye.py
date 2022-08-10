@@ -69,12 +69,12 @@ def wheel(pos, intensity=1.0):
     if pos < 0 or pos > 255:
         return (0, 0, 0)
     if pos < 85:
-        return ((255 - pos * 3) * intensity, (pos * 3) * intensity, 0)
+        return (int((255 - pos * 3) * intensity), int((pos * 3) * intensity), 0)
     if pos < 170:
         pos -= 85
-        return (0, (255 - pos * 3) * intensity, (pos * 3) * intensity)
+        return (0, int((255 - pos * 3) * intensity), int((pos * 3) * intensity))
     pos -= 170
-    return ((pos * 3) * intensity, 0, (255 - pos * 3) * intensity)
+    return (int((pos * 3) * intensity), 0, int((255 - pos * 3) * intensity))
 
 
 async def _rainbow(pixels, wait):
@@ -91,7 +91,8 @@ def run():
     print('Fri3d App is running.')
     print('Ctrl-C to get Python REPL.')
 
-    asyncio.create_task(_rainbow(BADGE.pixels(), 1))
+    if BADGE.settings().get_or_default("pixels.rainbow", True):
+        asyncio.create_task(_rainbow(BADGE.pixels(), 1))
 
     e = Eye(BADGE.display())
     e.auto()

@@ -42,12 +42,14 @@ def hold_to_recover(pin):
         uasyncio.run(check_recover_button(pin))
 
 
-if BADGE.settings().get('BLE-beacon_enabled'):
+if BADGE.settings().get_or_default('bluetooth.enabled', False):
     BADGE.bluetooth().advertise(BADGE.mac_address())
 
-app = BADGE.settings().get('apps.autorun')
-if app is None:
-    app = "frozen_apps.eye"
+if BADGE.settings().get_or_default('wifi.enabled', False):
+    BADGE.wifi().connect()
+
+app_recover = BADGE.settings().get_or_default('apps.recover', "frozen_apps.eye")
+app = BADGE.settings().get_or_default('apps.autorun', app_recover)
 
 BADGE.button().on_press(hold_to_recover)
 

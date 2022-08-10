@@ -4,16 +4,7 @@ import json
 
 FILENAME = '/settings.json'
 
-DEFAULT_SETTINGS = {
-    'BLE-beacon_enabled': True,
-    'powersave_enabled': True,
-    'wifi': {
-        'enabled': True,
-        'essid': '',
-        'password': '',
-        'reconnects': -1,
-    },
-}
+DEFAULT_SETTINGS = {}
 
 
 class Settings:
@@ -66,6 +57,18 @@ class Settings:
                 sub = sub[k]
         except KeyError:
             return None
+
+        return sub
+
+    def get_or_default(self, key, default_value):
+        sub = self.current
+        try:
+            for k in key.split('.'):
+                sub = sub[k]
+        except KeyError:
+            self.set(key, default_value)
+            self.store()
+            return default_value
 
         return sub
 
