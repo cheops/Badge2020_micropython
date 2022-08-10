@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BOARD=FRI3D_BADGE_2020_REV2
-SERIAL_PORT=/dev/ttyUSB0
+SERIAL_PORT=$1
 
 source esp-idf/export.sh
 
@@ -19,6 +19,6 @@ echo "ports/esp32/boards/$BOARD" > $ROOTDIR/.git/modules/micropython/info/exclud
 
 echo $PWD
 make BOARD=$BOARD clean
-make BOARD=$BOARD USER_C_MODULES=$ROOTDIR/st7789_mpy/st7789/micropython.cmake FROZEN_MANIFEST="$ROOTDIR/manifest.py"
+make -j4 BOARD=$BOARD USER_C_MODULES=$ROOTDIR/st7789_mpy/st7789/micropython.cmake FROZEN_MANIFEST="$ROOTDIR/manifest.py"
 # make BOARD=$BOARD PORT=$SERIAL_PORT erase
-make BOARD=$BOARD PORT=$SERIAL_PORT deploy
+#make BOARD=$BOARD PORT=$SERIAL_PORT deploy

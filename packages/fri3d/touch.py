@@ -1,26 +1,48 @@
 import uasyncio as asyncio
-import utime as time
-from gui.primitives import launch, Delay_ms
 
-from machine import Pin
+from lib.asyncio import launch
+from lib.delay_ms import Delay_ms
 
-class Touch:
+
+class NiftyTouch:
     trigger_level = 50
     sample_time = 10
     long_press_ms = 1000
     double_click_ms = 400
 
-    def __init__(self, touch, suppress=False):
-        self._touch = touch
+    def __init__(self, touch, led, pixels=None):
+        self.touch = touch
+        self.touch.config(300)
 
-    def press_func(self, func=False, args=()):
-        self._touch.on_press()
+        # press function
+        self._pf = False
 
-    def release_func(self, func=False, args=()):
+        # release function
+        self._rf = False
+
+        # delay function
+        self._df = False
+        self._ld = False  # Delay_ms instance for long press
+        self._dd = False  # Ditto for doubleclick
+
+        self._led = led
+        self._pixels = pixels
+
+        # Get initial state
+        self.state = self.rawstate()
+
+        # Thread runs forever
+        self._run = asyncio.create_task(self.touchcheck())
+
+    def on_press(self, func=False, args=()):
+        self._pf = func
+        self._pa = args
+
+    def on_release(self, func=False, args=()):
         self._rf = func
         self._ra = args
 
-    def double_func(self, func=False, args=()):
+    def on_double_press(self, func=False, args=()):
         self._df = func
         self._da = args
         if func:  # If double timer already in place, leave it
@@ -29,7 +51,7 @@ class Touch:
         else:
             self._dd = False  # Clearing down double func
 
-    def long_func(self, func=False, args=()):
+    def on_long_press(self, func=False, args=()):
         if func:
             if self._ld:
                 self._ld.callback(func, args)
@@ -40,7 +62,7 @@ class Touch:
 
     # Current non-debounced logical button state: True == pressed
     def rawstate(self):
-        rel_level =  max(self.touch.read() - self.trigger_level, 0)
+        rel_level = max(self.touch.read() - self.trigger_level, 0)
         return self.touch.read() < self.trigger_level
 
     # Return current state of switch (0 = pressed)
@@ -57,17 +79,24 @@ class Touch:
         while True:
             try:
                 touched = self.rawstate()
+
                 if touched != self.state:
                     # State has changed: act on it now.
                     self.state = touched
-                    if touched == True and self._pf:
+
+                    if self._pixels:
+                        self._pixels[self._led] = (50, 0, 0) if touched else (0, 0, 0)
+                        self._pixels.write()
+
+                    if touched and self._pf:
                         launch(self._pf, self._pa)
-                    elif touched == False and self._rf:
+
+                    elif not touched and self._rf:
                         launch(self._rf, self._ra)
             except ValueError:
                 pass
 
-            await asyncio.sleep_ms(Touch.sample_time)
+            await asyncio.sleep_ms(self.sample_time)
 
     def deinit(self):
         self._run.cancel()

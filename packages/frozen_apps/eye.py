@@ -1,17 +1,19 @@
 import st7789
-import display
-from display import color
 import uasyncio as asyncio
 import random
+import color
+
+from fri3d import BADGE
 
 
 class Eye:
-    def __init__(self):
+    def __init__(self, display):
+        self._display = display
         self.x = 0
         self.y = 0
         self.radius = 70
         self.pupil = 0.5
-        self.color = color["GREEN"]
+        self.color = color.GREEN
 
         self._task = None
 
@@ -31,13 +33,13 @@ class Eye:
         pupil_factor_x = int(iris_factor_x * offset_factor)
         pupil_factor_y = int(iris_factor_y * offset_factor)
 
-        display.display.fill(color["DARK_GREEN"])
-        display.display.fill_circle(
-            center_x, center_y, self.radius, color["WHITE"])
-        display.display.fill_circle(
+        self._display.fill(color.BLACK)
+        self._display.fill_circle(
+            center_x, center_y, self.radius, color.WHITE)
+        self._display.fill_circle(
             int(120 - iris_factor_x), int(120 - iris_factor_y), iris, self.color)
-        display.display.fill_circle(int(
-            120 - pupil_factor_x), int(120 - pupil_factor_y), int(iris * self.pupil), color["BLACK"])
+        self._display.fill_circle(int(
+            120 - pupil_factor_x), int(120 - pupil_factor_y), int(iris * self.pupil), color.BLACK)
 
     def auto(self, enable=True):
         if enable:
@@ -61,13 +63,13 @@ class Eye:
             await asyncio.sleep_ms(random.randint(3000, 10000))
 
 
-e = Eye()
-
-
 def run():
+    print('Fri3d App is running.')
+    print('Ctrl-C to get Python REPL.')
+
+    e = Eye(BADGE.display())
     e.auto()
 
     asyncio.get_event_loop().run_forever()
-
 
 run()

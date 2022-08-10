@@ -2,8 +2,7 @@
 
 import uasyncio as asyncio
 
-import hardware_setup
-from gui.core.ugui import Screen, ssd, Window
+from gui.core.ugui import Screen, ssd
 
 from gui.widgets.label import Label
 from gui.widgets.buttons import Button, CloseButton
@@ -18,7 +17,7 @@ import os
 import gui.fonts.freesans20 as font
 from gui.core.colors import *
 
-import settings
+from eye import settings, wifi
 import system
 
 wri = CWriter(ssd, font, YELLOW, BLACK, verbose=False)
@@ -125,7 +124,6 @@ class MenuScreen(Screen):
             self.reg_task(update, on_change=True)
 
     async def update_wifi(self):
-        import wifi
         wifi.do_connect()
         while(True):
             self.wifilbl.value('Wi-Fi: {}'.format(wifi.status()))
