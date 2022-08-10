@@ -12,5 +12,17 @@ display = st7789.ST7789(
         height=240,
         cs=pcs,
         dc=pdc,
-        buffer_size=240 * 240 * 2)
+        buffer_size=240 * 240 * 2)  
 display.init()
+
+color = {
+        "BLACK": st7789.BLACK,
+        "BLUE": st7789.BLUE,
+        "RED": st7789.RED,
+        "GREEN": st7789.GREEN,
+        "CYAN": st7789.CYAN,
+        "MAGENTA": st7789.MAGENTA,
+        "YELLOW": st7789.YELLOW,
+        "WHITE": st7789.WHITE,
+        "DARK_GREEN": 0x03E0
+}
