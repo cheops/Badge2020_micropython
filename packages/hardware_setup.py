@@ -23,32 +23,10 @@ prst = Pin(32, Pin.OUT)
 ssd = SSD(spi, height=240, width=240, cs=pcs, dc=pdc, rst=prst)
 
 from gui.core.ugui import Display, Screen
-_NEXT = const(1)
-_PREV = const(2)
 
 # Define control buttons
-prv = buttons.touch_0
-sel = buttons.touch_1
-nxt = buttons.touch_2
+prv = Pin(27)
+sel = Pin(14)
+nxt = Pin(13)
 
-class TouchInput:
-    def __init__(self, prv, sel, nxt):
-        self._prev = Touch(prv)
-        self._sel = Touch(sel)
-        self._next = Touch(nxt)
-
-        self._prev.press_func(Screen.ctrl_move, (_PREV,))
-        self._sel.release_func(Screen.sel_ctrl)
-        self._next.press_func(Screen.ctrl_move, (_NEXT,))
-
-    def precision(self, val):
-        Screen.redraw_co()
-
-    def adj_mode(self, v=None):
-        Screen.redraw_co()
-
-    def is_adjust(self):
-        return False
-
-
-disp = Display(ssd, input=TouchInput(prv, sel, nxt))
+disp = Display(ssd, nxt, sel, prv, touch=50)
