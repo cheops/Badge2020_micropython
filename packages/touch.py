@@ -3,17 +3,13 @@ import utime as time
 from gui.primitives import launch, Delay_ms
 
 from machine import Pin
-from neopixel import NeoPixel
-
-pin = Pin(2, Pin.OUT)
-neopixels = NeoPixel(pin, 5)
 
 class Touch:
     trigger_level = 50
     sample_time = 10
     long_press_ms = 1000
     double_click_ms = 400
-    def __init__(self, touch, led, suppress=False):
+    def __init__(self, touch, suppress=False):
         self.touch = touch
         # press function
         self._pf = False
@@ -23,8 +19,6 @@ class Touch:
         self._df = False
         self._ld = False  # Delay_ms instance for long press
         self._dd = False  # Ditto for doubleclick
-
-        self._led = led
     
         # Get initial state
         self.state = self.rawstate()  
@@ -76,18 +70,11 @@ class Touch:
         while True:
             try:
                 touched = self.rawstate()
-                # print(self._led, rel_level)
-                if touched:
-                    neopixels[self._led] = (0, 0, 15)
-                else:
-                    neopixels[self._led] = (0, 15, 0)
-                neopixels.write()
                 if touched != self.state:
                     # State has changed: act on it now.
                     self.state = touched
                     if touched == True and self._pf:
                         launch(self._pf, self._pa)
-                        neopixels[self._led] = (50, 0, 0)
                     elif touched == False and self._rf:
                         launch(self._rf, self._ra)
             except ValueError:

@@ -33,9 +33,9 @@ nxt = buttons.touch_2
 
 class TouchInput:
     def __init__(self, prv, sel, nxt):
-        self._prev = Touch(prv, 0)
-        self._sel = Touch(sel, 1)
-        self._next = Touch(nxt, 2)
+        self._prev = Touch(prv)
+        self._sel = Touch(sel)
+        self._next = Touch(nxt)
 
         self._prev.press_func(Screen.ctrl_move, (_PREV,))
         self._sel.release_func(Screen.sel_ctrl)
