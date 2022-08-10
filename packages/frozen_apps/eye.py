@@ -63,9 +63,35 @@ class Eye:
             await asyncio.sleep_ms(random.randint(3000, 10000))
 
 
+def wheel(pos, intensity=1.0):
+    # Input a value 0 to 255 to get a color value.
+    # The colours are a transition r - g - b - back to r.
+    if pos < 0 or pos > 255:
+        return (0, 0, 0)
+    if pos < 85:
+        return ((255 - pos * 3) * intensity, (pos * 3) * intensity, 0)
+    if pos < 170:
+        pos -= 85
+        return (0, (255 - pos * 3) * intensity, (pos * 3) * intensity)
+    pos -= 170
+    return ((pos * 3) * intensity, 0, (255 - pos * 3) * intensity)
+
+
+async def _rainbow(pixels, wait):
+    while True:
+        for j in range(255):
+            for i in range(5):
+                rc_index = (i * 256 // 5) + j
+                pixels[i] = wheel(rc_index & 255, .5)
+            pixels.write()
+            await asyncio.sleep_ms(wait)
+
+
 def run():
     print('Fri3d App is running.')
     print('Ctrl-C to get Python REPL.')
+
+    asyncio.create_task(_rainbow(BADGE.pixels(), 1))
 
     e = Eye(BADGE.display())
     e.auto()
