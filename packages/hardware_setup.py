@@ -9,7 +9,7 @@
 from machine import Pin, SPI, freq
 
 import gc
-import buttons
+
 from touch import Touch
 
 from drivers.st7789.st7789_4bit import *
