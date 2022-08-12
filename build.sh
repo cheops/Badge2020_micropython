@@ -7,7 +7,7 @@ source esp-idf/export.sh
 FIRMWARE_VERSION=`git describe --always --tags --dirty`
 ROOTDIR=`pwd`
 
-FIRMWARE_PACKAGE=$ROOTDIR/firmware-$FIRMWARE_VERSION.zip
+FIRMWARE_PACKAGE=$ROOTDIR/micropython-$FIRMWARE_VERSION.zip
 
 cd micropython
 
