@@ -1,11 +1,14 @@
 #!/bin/bash
 
 BOARD=FRI3D_BADGE_2020_REV2
-SERIAL_PORT=$1
 
 source esp-idf/export.sh
 
+FIRMWARE_VERSION=`git describe --always --tags --dirty`
 ROOTDIR=`pwd`
+
+FIRMWARE_PACKAGE=$ROOTDIR/firmware-$FIRMWARE_VERSION.zip
+
 cd micropython
 
 make -C mpy-cross
@@ -20,5 +23,8 @@ echo "ports/esp32/boards/$BOARD" > $ROOTDIR/.git/modules/micropython/info/exclud
 echo $PWD
 make BOARD=$BOARD clean
 make -j4 BOARD=$BOARD USER_C_MODULES=$ROOTDIR/st7789_mpy/st7789/micropython.cmake FROZEN_MANIFEST="$ROOTDIR/manifest.py"
-# make BOARD=$BOARD PORT=$SERIAL_PORT erase
-#make BOARD=$BOARD PORT=$SERIAL_PORT deploy
+
+rm $FIRMWARE_PACKAGE
+pushd build-$BOARD && cp $ROOTDIR/flash_args . && zip $FIRMWARE_PACKAGE flash_args $(cat flash_args | while read _ f; do [[ -f $f ]] && echo $f; done) && popd
+
+echo "Firmware package ready: $FIRMWARE_PACKAGE"
