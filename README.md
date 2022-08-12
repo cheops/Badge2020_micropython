@@ -3,25 +3,33 @@ You don't have to buid this firmware yourself to run it. Download from:
 
 https://github.com/Fri3dCamp/badge-2020/tree/master/firmware
 
-## Build steps
+# App development
 
-_Warning: this download is big! Ask around if someone at the camp can give you a copy via USB stick._
+Connect to your badge 
 
-`git submodule update --init`
+``` shell
+mpremote /dev/ttyUSB0
+```
 
-`esp-idf/install.sh esp32`
+Ctrl+C to stop the current App
 
-`./build.sh`
+Enable REPL as the default App
 
-Enjoy
+``` python
+BADGE.settings().set('apps.autorun', 'frozen_apps.repl')
+BADGE.settings().store()
+```
 
-## Windows USB drivers
-https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
+Mount a directory on your computer to the badge using mpremote.
 
-## WiFi setup
-* Connect to badge via Serial, BAUD: 115200
-* send CTRL+C
-* settings.set("wifi.essid","YourSSIDHere")
-* settings.set("wifi.password","YourPASSWORDhere")
-* settings.store()
-* (reset), can be done with CTRL+D
+``` shell
+mpremote /dev/ttyUSB0 mount <local_directory>
+```
+
+This will open a python terminal (REPL) and your `<local_directory>` is in `/remote`
+
+To run your app:
+
+``` python
+import <app_name>
+```
