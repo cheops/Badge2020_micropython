@@ -18,7 +18,9 @@ cd ports/esp32
 [ ! -e boards/$BOARD ] && ln -s $ROOTDIR/boards/$BOARD boards/$BOARD
 
 # HACK: make git ignore our board dir in the micropython submodule
-echo "ports/esp32/boards/$BOARD" > $ROOTDIR/.git/modules/micropython/info/exclude
+MICROPYTHON_DIR=$ROOTDIR/.git/modules/micropython
+mkdir -p $MICROPYTHON_DIR/info
+echo "ports/esp32/boards/$BOARD" > $MICROPYTHON_DIR/info/exclude
 
 echo $PWD
 make BOARD=$BOARD clean
