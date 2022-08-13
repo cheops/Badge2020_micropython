@@ -5,6 +5,7 @@ import uasyncio
 
 import system
 from fri3d import BADGE
+from blaster import BLASTER
 
 import sys
 sys.path.append('/apps')
