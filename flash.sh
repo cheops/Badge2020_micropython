@@ -5,4 +5,4 @@ source esp-idf/export.sh
 
 cd micropython/ports/esp32
 
-idf.py -D MICROPY_BOARD=FRI3D_BADGE_2020_REV2 -B build-FRI3D_BADGE_2020_REV2  -p $PORT -b 460800 flash
+idf.py -D MICROPY_BOARD=FRI3D_BADGE_2020_REV2 -B build-FRI3D_BADGE_2020_REV2  -p $1 -b 460800 flash
