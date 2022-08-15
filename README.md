@@ -18,17 +18,17 @@ Enjoy
 https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
 
 ## pre-build golden firmwares (with bugs)
-(enables you to reproduce the bugs we had)
-see firmware//electrifri3d_code_13-8-2022_20_37
-install python
-install esptool `pip install esptool`
-run `python flash.py`
-plug in your badge and flashing will start automatically
+(enables you to reproduce the bugs we had)  
+see firmware//electrifri3d_code_13-8-2022_20_37  
+install python  
+install esptool `pip install esptool`  
+run `python flash.py`  
+plug in your badge and flashing will start automatically  
 
 
 ## only micropython code with labraries and drivers
-see firmware/electrifri3d_no_frozen_code
-install python
-install esptool `pip install esptool`
-run `flash.bat`
-follow instructions on https://github.com/cheops/fri3d-lasertag
+see firmware/electrifri3d_no_frozen_code  
+install python  
+install esptool `pip install esptool`  
+run `flash.bat`  
+follow instructions on https://github.com/cheops/fri3d-lasertag  
