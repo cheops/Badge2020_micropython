@@ -11,10 +11,9 @@ Enjoy
 ## Windows USB drivers
 https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
 
-## WiFi setup
-* Connect to badge via Serial, BAUD: 115200
-* send CTRL+C
-* settings.set("wifi.essid","YourSSIDHere")
-* settings.set("wifi.password","YourPASSWORDhere")
-* settings.store()
-* (reset), can be done with CTRL+D
+## pre-build golden firmwares (with bugs)
+see firmware//electrifri3d_code_13-8-2022_20_37
+install python
+install esptool `pip install esptool`
+run `python flash.py`
+plug in your badge and flashing will start automatically
